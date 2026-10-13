@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Revolut · Cartão · Comercial 15s</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{--w:#fff;--k:#0a0a0a;box-sizing:border-box}
+html,body{height:100%;margin:0;background:#000;overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;overflow:hidden;cursor:pointer;transform-origin:center;
+  font-family:'Inter','Arial Black',Arial,sans-serif;font-weight:900;text-transform:uppercase;background:var(--k)}
+#stage>div,.g{position:absolute;inset:0}
+.g{visibility:hidden}
+.tx{position:absolute;left:0;right:0;text-align:center;line-height:.88;letter-spacing:-.04em;white-space:nowrap}
+.eo{color:transparent!important;-webkit-text-stroke:3px currentColor}
+#dot{position:absolute;left:946px;top:526px;width:28px;height:28px;border-radius:50%;background:#fff}
+.pt{position:absolute;left:950px;top:536px;width:60px;height:8px;border-radius:4px;background:#fff;filter:blur(2px);opacity:0}
+#glow{background:radial-gradient(ellipse 600px 700px at 50% 50%,rgba(255,255,255,.2),transparent 70%)}
+/* cartão 3D */
+.card{position:absolute;left:750px;top:207px;width:420px;height:666px;transform-style:preserve-3d}
+.face,.edge{position:absolute;inset:0;border-radius:34px}
+.edge{background:#303034}
+.front{background:linear-gradient(135deg,#232327,#050506 55%,#17171a);transform:translateZ(5px);backface-visibility:hidden;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.1)}
+.back{background:linear-gradient(135deg,#17171a,#060607);transform:rotateY(180deg) translateZ(5px);backface-visibility:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
+.back i{position:absolute;left:0;right:0;top:90px;height:100px;background:#000}
+.chip{position:absolute;left:46px;top:130px;width:74px;height:58px;border-radius:10px;
+  background:linear-gradient(90deg,transparent 32%,#6d6f75 32% 35%,transparent 35% 65%,#6d6f75 65% 68%,transparent 68%),linear-gradient(0deg,transparent 45%,#6d6f75 45% 50%,transparent 50%),linear-gradient(135deg,#e1e2e5,#8d8f95 50%,#d6d7da)}
+.wm{position:absolute;right:34px;top:34px;writing-mode:vertical-rl;font-size:72px;letter-spacing:-.02em;color:#e9eaee;text-transform:none}
+.sheen{position:absolute;top:0;bottom:0;left:-60%;width:220%;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.17) 50%,transparent 62%)}
+/* benefícios */
+.bc{position:absolute;width:540px;height:260px;border-radius:30px;background:#fff;color:var(--k);padding:36px 44px;box-sizing:border-box;opacity:0}
+.bc b{display:block;font-size:30px;color:#8b8b90;letter-spacing:.02em}
+.bc h3{margin:12px 0 10px;font-size:62px;line-height:.95;letter-spacing:-.03em}
+.bc p{margin:0;font-size:25px;color:#55555a;letter-spacing:0}
+.wp{position:absolute;left:0;top:-20px;width:2900px;height:1120px;filter:blur(14px);transform:translateX(2250px) skewX(-14deg)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg" style="background:#0a0a0a"></div>
+  <div class="g" id="g1"><div id="dot"></div></div>
+  <div class="g" id="g2" style="color:#0a0a0a"><div class="tx" id="f1" style="top:250px;font-size:330px"></div></div>
+  <div class="g" id="glow"></div>
+  <div class="g" id="g4" style="color:#0a0a0a"><div class="tx" id="f2" style="top:300px;font-size:235px"></div></div>
+  <div class="g" id="g6" style="color:#0a0a0a"><div class="tx" id="f3" style="top:260px;font-size:285px"></div></div>
+  <div class="g" id="w1" style="color:#fff"><div class="tx" style="top:300px;font-size:460px"></div></div>
+  <div class="g" id="w2" style="color:#0a0a0a"><div class="tx" style="top:300px;font-size:460px"></div></div>
+  <div class="g" id="w3" style="color:#fff"><div class="tx" style="top:300px;font-size:460px"></div></div>
+  <div class="g" id="g8" style="color:#0a0a0a">
+    <div class="tx" id="logo" style="top:350px;left:120px;right:auto;text-align:left;font-size:250px"></div>
+    <div class="tx" id="tag" style="top:640px;left:128px;right:auto;text-align:left;font-size:58px;letter-spacing:-.01em"></div>
+  </div>
+  <div id="cw" class="g"><div id="gh"></div><div id="cm"></div></div>
+  <div class="g" id="g5"><div class="bc" id="bc1" style="left:150px;top:230px"></div><div class="bc" id="bc2" style="left:1230px;top:590px"></div></div>
+  <div class="wp" id="wp1"></div><div class="wp" id="wp2"></div><div class="wp" id="wp0"></div>
+</div>
+
+<script>
+/* ===== EDITA AQUI ===== */
+const CFG={
+  brand:"Revolut", tagline:"Pronto para o mundo.",
+  f1:"Tudo<br>mudou.", f2:"Um cartão.<br>O mundo todo.", f3:"Tudo<br>num toque.",
+  b1:["Sem fronteiras","Paga em qualquer lugar."], b2:["Controlo total","Tudo em tempo real."],
+  words:["Paga.","Viaja.","Vive."]
+};
+/* ======================= */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const stage=$('#stage');
+const fit=()=>stage.style.transform=`translate(-50%,-50%) scale(${Math.min(innerWidth/1920,innerHeight/1080)})`;
+addEventListener('resize',fit);fit();
+$('#f1').innerHTML=CFG.f1;$('#f2').innerHTML=CFG.f2;$('#f3').innerHTML=CFG.f3;
+$$('#w1 .tx,#w2 .tx,#w3 .tx').forEach((e,i)=>e.textContent=CFG.words[i]);
+$('#logo').textContent=CFG.brand;$('#tag').textContent=CFG.tagline;
+$('#bc1').innerHTML=`<b>01</b><h3>${CFG.b1[0]}</h3><p>${CFG.b1[1]}</p>`;
+$('#bc2').innerHTML=`<b>02</b><h3>${CFG.b2[0]}</h3><p>${CFG.b2[1]}</p>`;
+
+function makeCard(){const c=document.createElement('div');c.className='card';
+  c.innerHTML='<div class="edge" style="transform:translateZ(-4px)"></div><div class="edge" style="transform:translateZ(-1px)"></div><div class="edge" style="transform:translateZ(2px)"></div>'+
+  `<div class="face back"><i></i></div><div class="face front"><div class="chip"></div><div class="wm">${CFG.brand}</div><div class="sheen"></div></div>`;return c}
+const main=makeCard();$('#cm').appendChild(main);
+const ghosts=[0,1,2].map(()=>{const c=makeCard();$('#gh').appendChild(c);return c});
+
+function build(){
+const tl=gsap.timeline({paused:true});
+const vis=(sel,a,b)=>{tl.set(sel,{autoAlpha:1},a);if(b!=null)tl.set(sel,{autoAlpha:0},b)};
+const bg=(c,t)=>tl.set('#bg',{backgroundColor:c},t);
+const K='#0a0a0a',W='#ffffff';
+
+/* transição: painéis com motion blur + eco */
+gsap.set('.wp',{x:2250,skewX:-14});
+function trans(tc,dest){
+  const opp=dest===K?'#9a9aa0':'#555';
+  tl.set('#wp0',{backgroundColor:dest},0).set(['#wp1','#wp2'],{backgroundColor:opp,opacity:.55},0);
+  [['#wp2',-.1],['#wp1',-.05],['#wp0',0]].forEach(([w,d])=>tl.fromTo(w,{x:2250},{x:-3200,duration:.5,ease:'power3.inOut'},tc+d));
+}
+/* texto: slam com blur + eco em contorno */
+function slam(el,t,from){
+  const cs=[1,2,3].map(()=>{const c=el.cloneNode(true);c.removeAttribute('id');c.classList.add('eo');el.parentNode.insertBefore(c,el);return c});
+  gsap.set([el,...cs],{opacity:0});
+  const f=Object.assign({filter:'blur(40px)',opacity:0},from),to={x:0,y:0,filter:'blur(0px)'};
+  tl.fromTo(el,f,{...to,opacity:1,duration:.5,ease:'expo.out'},t);
+  cs.forEach((c,i)=>tl.fromTo(c,f,{...to,opacity:.5-i*.14,duration:.55+i*.07,ease:'expo.out'},t+(i+1)*.04).to(c,{opacity:0,duration:.25},t+.6+i*.03));
+}
+
+/* 1 · pontinho explode */
+vis('#g1',0,1.5);
+tl.fromTo('#dot',{scale:0},{scale:1,duration:.35,ease:'back.out(3)'},.1)
+  .to('#dot',{scale:.7,duration:.35,ease:'power2.inOut'},.6)
+  .to('#dot',{scale:170,duration:.5,ease:'expo.in'},.95);
+for(let i=0;i<18;i++){const a=i/18*Math.PI*2,p=document.createElement('div');p.className='pt';$('#g1').appendChild(p);
+  gsap.set(p,{rotation:a*180/Math.PI});
+  tl.fromTo(p,{x:0,y:0,scaleX:.3,opacity:1},{x:Math.cos(a)*1100,y:Math.sin(a)*1100,scaleX:6,opacity:0,duration:.55,ease:'expo.out'},.95+(i%3)*.03)}
+/* 2 · FRASE 1 */
+bg(W,1.45);vis('#g2',1.45,3.25);slam($('#f1'),1.5,{x:-1100});
+trans(3.0,K);
+/* estado do cartão */
+const S={x:0,y:0,sc:3.2,ry:-18,rx:8,echo:0,blur:0};
+const foc=(lx,ly,sc)=>({x:(210-lx)*sc,y:(333-ly)*sc});
+/* 3 · close nos detalhes */
+bg(K,3.25);vis('#cw',3.25,10.25);
+tl.set(S,{sc:3.2,ry:-18,rx:8,...foc(81,158,3.2)},3.25)
+  .fromTo(S,{x:foc(81,158,3.2).x+500,blur:26,echo:1},{x:foc(81,158,3.2).x,blur:0,duration:.4,ease:'expo.out'},3.25)
+  .to(S,{ry:-6,duration:.8,ease:'sine.inOut'},3.6)
+  .to(S,{...foc(378,205,3.2),ry:14,echo:1,duration:.65,ease:'power3.inOut'},4.35)
+  .to(S,{echo:0,duration:.3},4.9);
+trans(5.0,W);
+/* 4 · FRASE 2 + produto girando */
+bg(W,5.25);vis('#g4',5.25,7.65);slam($('#f2'),5.3,{y:700});
+tl.set(S,{x:0,y:0,sc:1.1,ry:0,rx:6,echo:1,blur:0},5.25)
+  .to(S,{ry:720,duration:2.0,ease:'power3.inOut'},5.3)
+  .to(S,{echo:0,duration:.3},7.2);
+trans(7.4,K);
+/* 5 · benefícios em cards */
+bg(K,7.65);vis('#glow',7.65,10.25);vis('#g5',7.65,10.25);
+tl.set(S,{x:0,y:0,sc:.9,ry:-30,rx:6,echo:0},7.65).to(S,{ry:30,duration:2.4,ease:'sine.inOut'},7.65);
+[['#bc1',7.95,-1000],['#bc2',8.6,1000]].forEach(([id,t,x])=>{
+  const el=$(id),cs=[1,2,3].map(()=>{const c=el.cloneNode(true);c.removeAttribute('id');c.innerHTML='';c.style.background='rgba(255,255,255,.25)';el.parentNode.insertBefore(c,el);return c});
+  gsap.set(cs,{opacity:0});
+  tl.fromTo(el,{x,filter:'blur(30px)',opacity:0},{x:0,filter:'blur(0px)',opacity:1,duration:.5,ease:'expo.out'},t);
+  cs.forEach((c,i)=>tl.fromTo(c,{x,filter:'blur(30px)',opacity:0},{x:0,filter:'blur(0px)',opacity:.4-i*.1,duration:.55+i*.07,ease:'expo.out'},t+(i+1)*.04).to(c,{opacity:0,duration:.25},t+.6+i*.03));
+  tl.to(el,{y:'-=14',duration:1.1,ease:'sine.inOut',yoyo:true,repeat:1},t+.6)});
+trans(10.0,W);
+/* 6 · FRASE 3 */
+bg(W,10.25);vis('#g6',10.25,11.5);slam($('#f3'),10.3,{x:1100});
+/* 7 · três palavras */
+bg(K,11.5);vis('#w1',11.5,12.1);slam($('#w1 .tx'),11.5,{x:-1200});
+bg(W,12.1);vis('#w2',12.1,12.7);slam($('#w2 .tx'),12.1,{x:1200});
+bg(K,12.7);vis('#w3',12.7,13.35);slam($('#w3 .tx'),12.7,{y:800});
+trans(13.1,W);
+/* 8 · logo + tagline */
+bg(W,13.35);vis('#g8',13.35,15.5);vis('#cw',13.35,15.5);
+slam($('#logo'),13.4,{x:-1200});
+tl.fromTo('#tag',{y:40,opacity:0,filter:'blur(14px)'},{y:0,opacity:1,filter:'blur(0px)',duration:.5,ease:'power3.out'},13.85)
+  .set(S,{x:520,y:0,sc:.95,ry:-45,rx:6,blur:22,echo:1},13.35)
+  .to(S,{ry:-18,blur:0,duration:.7,ease:'expo.out'},13.4).to(S,{echo:0,duration:.3},13.9)
+  .to(S,{ry:-6,y:-16,duration:1.5,ease:'sine.inOut'},13.95);
+tl.to({},{duration:.01},14.99);
+
+/* aplica o estado 3D ao cartão e aos fantasmas (echo) */
+const hist=[];
+const apply=(c,s)=>{gsap.set(c,{x:s.x,y:s.y,scale:s.sc,rotationY:s.ry,rotationX:s.rx,transformPerspective:1800});
+  c.querySelector('.sheen').style.transform=`translateX(${Math.sin(s.ry*Math.PI/180)*28}%)`};
+gsap.ticker.add(()=>{hist.unshift({...S});if(hist.length>20)hist.pop();
+  apply(main,S);main.style.filter=S.blur>.5?`blur(${S.blur}px)`:'none';
+  ghosts.forEach((g,i)=>{const h=hist[Math.min((i+1)*3,hist.length-1)];apply(g,h);g.style.opacity=S.echo*(.3-i*.08)})});
+
+stage.addEventListener('click',()=>tl.restart());
+tl.play();
+}
+(document.fonts&&document.fonts.ready?Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,2500))]):Promise.resolve()).then(build);
+</script>
+</body>
+</html>
